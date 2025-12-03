@@ -28,10 +28,23 @@ def player_hand(deck):
     deck.pop(rand_int)
     print(player)
     print(deck)
+    return player
 
-def player_points(chosen_card, player):
+def player_points(player):
     total_points = 0
-    for 
+    aces = 0
+    for card in player:
+        card_value = card[2]
+        if card[1] == "Ace":
+            aces += 1
+            total_points += 1
+        else:
+            total_points += card_value
+    while aces > 0 and total_points + 10 <= 21:
+        total_points += 10
+        aces -= 1
+    return total_points
+
 
 def dealer_hand(deck):
     dealer = []
@@ -41,6 +54,7 @@ def dealer_hand(deck):
     deck.pop(rand_int)
     print(dealer)
     print(deck)
+    return dealer
 
 
 def main():
