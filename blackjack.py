@@ -20,6 +20,20 @@ def get_deck():
     return deck
 
 
+def read_money():
+    with open("money.txt", "r") as infile:
+        for line in infile:
+            new_line = line
+            money = float(new_line)
+            return money
+        
+
+
+def write_money(balance):
+    with open("money.txt", "w") as outfile:
+        outfile.write(str(balance))
+
+
 def player_hand(deck):
     player = []
     rand_int = random.randint(1, len(deck)-1)
