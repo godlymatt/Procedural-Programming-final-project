@@ -10,7 +10,7 @@ def title():
     print("")
 
 
-def bet_amount():
+def balance_manage():
     balance = db.read_money()
     if balance <= 5:
         buy = input("Your balance has gone done to or below 5. Would you like to buy more?: ")
@@ -26,23 +26,25 @@ def bet_amount():
                     continue
         elif buy == "no":
             print("Ok have a good day.")
-    else:
-        while True:
-            try:
-                bet = float(input("How much would you like to bet? (min: 5 max: 1000): "))
-                break
-            except ValueError:
-                print("Please enter a valid number.")
-                continue
-        while True:
-            if bet >= 5 or bet <= 1000:
-                if bet <= balance:
-                    return bet
 
-                else:
-                    print(f"Bet must be within your balance. Your current balance is {balance}.")
+
+def bet_amount(balance):
+    while True:
+        try:
+            bet = float(input("How much would you like to bet? (min: 5 max: 1000): "))
+            break
+        except ValueError:
+            print("Please enter a valid number.")
+            continue
+    while True:
+        if bet >= 5 or bet <= 1000:
+            if bet <= balance:
+                return bet
+
             else:
-                print("Please bet within the limits of 5 and 1000.")
+                print(f"Bet must be within your balance. Your current balance is {balance}.")
+        else:
+            print("Please bet within the limits of 5 and 1000.")
         
 
 
@@ -55,7 +57,6 @@ def get_deck():
     for suit in suits:
         for value, rank in enumerate(ranks):
             deck.append([suit, rank, values[value]])
-    print(deck)
     return deck
 
 
@@ -65,8 +66,6 @@ def player_hand(deck):
     chosen_card = deck[rand_int]
     player.append(chosen_card)
     deck.pop(rand_int)
-    print(player)
-    print(deck)
     return player
 
 
@@ -114,15 +113,25 @@ def dealer_hand(deck):
     chosen_card = deck[rand_int]
     dealer.append(chosen_card)
     deck.pop(rand_int)
-    print(dealer)
-    print(deck)
     return dealer
 
 
 def main():
     title()
-    deck = get_deck()
-    player_hand(deck)
-    dealer_hand(deck)
+    balance = balance_manage()
+    bet = bet_amount(balance)
+    while True:
+        deck = get_deck()
+        player_hands = player_hand(deck)
+        dealer_hands = dealer_hand(deck)
+        
+        print(f"Your balance is {balance}")
+        print(f"Your bet is {bet}")
+        
+
+
+
+
+
 if __name__ == "__main__":
     main()
