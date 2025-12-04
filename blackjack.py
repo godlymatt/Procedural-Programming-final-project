@@ -1,10 +1,49 @@
 import random
+import db
+
+
 
 def title():
     print("Welcome to matt's super amazing Blackjack game!!!")
     print("-------------------------------------------------")
     print("If you win the payout is a whopping X1.5 your bet!!!")
     print("")
+
+
+def bet_amount():
+    balance = db.read_money()
+    if balance <= 5:
+        buy = input("Your balance has gone done to or below 5. Would you like to buy more?: ")
+        if buy == "yes":
+            while True:
+                try:
+                    more = float(input("How much money would you like to buy?: "))
+                    balance += more
+                    return balance
+                    break
+                except ValueError:
+                    print("Please enter a valid number.")
+                    continue
+        elif buy == "no":
+            print("Ok have a good day.")
+    else:
+        while True:
+            try:
+                bet = float(input("How much would you like to bet? (min: 5 max: 1000): "))
+                break
+            except ValueError:
+                print("Please enter a valid number.")
+                continue
+        while True:
+            if bet >= 5 or bet <= 1000:
+                if bet <= balance:
+                    return bet
+
+                else:
+                    print(f"Bet must be within your balance. Your current balance is {balance}.")
+            else:
+                print("Please bet within the limits of 5 and 1000.")
+        
 
 
 
@@ -18,20 +57,6 @@ def get_deck():
             deck.append([suit, rank, values[value]])
     print(deck)
     return deck
-
-
-def read_money():
-    with open("money.txt", "r") as infile:
-        for line in infile:
-            new_line = line
-            money = float(new_line)
-            return money
-        
-
-
-def write_money(balance):
-    with open("money.txt", "w") as outfile:
-        outfile.write(str(balance))
 
 
 def player_hand(deck):
@@ -68,12 +93,14 @@ def player_points(player):
         if card[1] == "Ace":
             if player_total_points <= 10:
                 while True:
+                    
                     ace_choice = input("You have drawn an ace. Would you like it to be 1 or 11 points?: ")
                     if ace_choice == "1" or ace_choice == "11":
                         player_total_points += int(ace_choice)
                         break
                     else:
                         print("You must pick between 1 and 11. Try again.")
+                    
             else:
                 player_total_points += 1
         else:
