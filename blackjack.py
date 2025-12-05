@@ -6,7 +6,7 @@ import db
 def title():
     print("Welcome to matt's super amazing Blackjack game!!!")
     print("-------------------------------------------------")
-    print("If you win the payout is a whopping X1.5 your bet!!!")
+    print("You can win the BlackJack payout of a whopping X1.5 your bet!!!")
     print("")
 
 
@@ -160,7 +160,7 @@ def display_hand(hand, name, hide_first=False):
             total = player_points(hand)
         else:
             total = dealer_points(hand)
-        print(f"{name}'s hand: {cards_str} (Total: {total})")
+        print(f"{name} hand: {cards_str} (Total: {total})")
 
 
 def player_turn(deck, hand):
@@ -201,9 +201,9 @@ def dealer_turn(deck, hand):
 
 def main():
     title()
-    balance = balance_manage()
-    bet = bet_amount(balance)
     while True:
+        balance = balance_manage()
+        bet = bet_amount(balance)
         deck = get_deck()
         player_hands = player_hand(deck) + player_hand(deck)
         dealer_hands = dealer_hand(deck) + dealer_hand(deck)
@@ -245,10 +245,10 @@ def main():
 
                 if dealer_total > 21:
                     print("Dealer busted! You win!")
-                    balance += bet * 1.5
+                    balance += bet * 0.5
                 elif player_total > dealer_total:
                     print("You win!")
-                    balance += bet * 1.5
+                    balance += bet * 0.5
                 elif dealer_total > player_total:
                     print("Dealer wins.")
                     balance -= bet
